@@ -2,8 +2,8 @@
   // Modify me later
   var canvas = document.getElementById('canvas'),
       ctx = canvas.getContext('2d'),
-      width = canvas.width,
-      height = canvas.height;
+      width = 320;
+      height = 416;
 
   var config = {
     width: 30,
@@ -11,6 +11,10 @@
   };
 
   var initCanvas = function initCanvas(canvas) {
+    canvas.height = height;
+    canvas.width = width;
+    setTimeout(function() { scrollTo(0,  0); },  100);
+
     var line_start = 0;
     ctx.lineWidth = 3;
     for (var line = 1; line <= 2; line++) {
@@ -31,20 +35,27 @@
   };
 
   var makeEventListener = function makeEventListener(canvas) {
-    var touchInfo;
-    canvas.ontouchdown = canvas.onmousedown = function(e) {
-      touchInfo = null;
-      var touch = e.touches ? e.touches[0] : e;
+    canvas.onmousedown = function(e) {
+      onTouch(e.clientX, e.clientY);
+    }
+    canvas.ontouchstart = function(e) {
+      if (e.touches[0]) {
+        onTouch(e.touches[0].clientX, e.touches[0].clientY);
+      }
+      e.preventDefault();
+    };
+  };
+
+  var onTouch = function onTouch(touch_x, touch_y) {
       var x_base = width / 3, y_base = height / 3;
-      var x = Math.floor((touch.clientX - canvas.offsetLeft) / x_base);
-      var y = Math.floor((touch.clientY - canvas.offsetTop) / y_base);
+      var x = Math.floor((touch_x - canvas.offsetLeft) / x_base);
+      var y = Math.floor((touch_y - canvas.offsetTop) / y_base);
       Controller.markBoadAt(y, x);
       renderMark(x, y);
 
       if (Controller.isCleared === true) {
         alert('Player ' + Controller.player[1 - Controller.turn] + ' won!');
       }
-    };
   };
 
   var renderMark = function renderMark(cell_x, cell_y) {
