@@ -50,11 +50,14 @@ var Controller = {
 
   checkClear: function() {
     var origin = -1,
-    _x,
-    _y;
+        _x,
+        _y;
     for (var origin_y = 0; origin_y <= 4; origin_y++) {
-      _x = origin_y < 3 ? 0 : origin_y === 3 ? 1 : 2;
-      _y = origin_y === 4 ? 0 : origin_y % 3;
+      _x = origin_y < 3   ? 0
+         : origin_y === 3 ? 1
+         : 2;
+      _y = origin_y === 4 ? 0
+         : origin_y % 3;
       origin = this.boad[_x][_y];
       if (origin < 0) continue;
 
@@ -63,14 +66,14 @@ var Controller = {
 
       for (var i = 0; i < oppositeListLength; i++) {
         var point = oppositeList[i],
-          opposite_x = point[0],
-                     opposite_y = point[1];
+            opposite_x = point[0],
+            opposite_y = point[1];
         if (origin === this.boad[opposite_x][opposite_y]) {
           var tmp_x, tmp_y;
-          var middle_x = (tmp_x = Math.abs(opposite_x - _x)) > 0 ?
-                                                   tmp_x - 1 : _x;
-          var middle_y = (tmp_y = Math.abs(opposite_y - _y)) > 0 ?
-                                                   tmp_y - 1 : _y;
+          var middle_x = (tmp_x = Math.abs(opposite_x - _x)) > 0 ? tmp_x - 1
+                       : _x;
+          var middle_y = (tmp_y = Math.abs(opposite_y - _y)) > 0 ? tmp_y - 1
+                       : _y;
           if (origin === this.boad[middle_x][middle_y]) {
             return true;
           }
